@@ -37,7 +37,10 @@ const MyComponent = () => {
 };
 
 export default MyComponent;
-Props
+```
+
+## Props
+```jsx
 svgName (String): The name of the icon you want to render from iconConfig.js.
 clicked (Boolean): Whether or not the icon is clicked.
 onClick (Function): The function to run when the icon is clicked. Example: onClick={() => setClicked("iconName")}.
@@ -48,31 +51,6 @@ hoverFill (String): The color of the icon when hovered over. If not provided, it
 tooltipText (String): The content of the tooltip that appears when hovering over the icon.
 clickedText (String): The text that appears when the icon is clicked.
 urlLink (String): The URL that the icon should link to when clicked. Default is null.
-import React, { useState } from 'react';
-import HoverableSVG from 'functional-svg';
-
-const Example = () => {
-  const [clicked, setClicked] = useState(false);
-
-  return (
-    <div>
-      <HoverableSVG
-        svgName="myIcon"
-        clicked={clicked}
-        onClick={() => setClicked(!clicked)}
-        width={30}
-        height={30}
-        defaultFill="#123456"
-        hoverFill="#654321"
-        tooltipText="Click me!"
-        clickedText="You clicked the icon!"
-        urlLink="https://example.com"
-      />
-    </div>
-  );
-};
-
-export default Example;
 ```
 
 ## Contributing
