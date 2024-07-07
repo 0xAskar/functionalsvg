@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GetIcon } from '../config/icons/iconConfig'; // Adjust the path as necessary
+// import { GetIcon } from '../config/icons/iconConfig'; // Adjust the path as necessary
 import { Tooltip } from '@nextui-org/react';
 import { isMobile } from 'react-device-detect';
 
@@ -18,11 +18,30 @@ import { isMobile } from 'react-device-detect';
  * @param {String} urlLink | The url that the icon should link to when clicked
  * @returns Rendered Icon
  */
-export default function FunctionalSVG({ svgName, clicked, onClick, urlLink = null, tooltipText = null, width = 15, height = 15, defaultFill = "rgba(75,75,75, 0.5)", hoverFill = "#00ffd5", clickedText = null }) {
+export default function FunctionalSVG({ SvgIcon, clicked, onClick, urlLink = null, tooltipText = null, tooltipTextColor="white", tooltipBgColor="black", size=15, width = 15, height = 15, defaultFill = null, hoverFill = null, clickedText = null }) {
   const [isHovered, setIsHovered] = useState(false);
   const [showText, setShowText] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+  const determineFillOrStroke = (child, fill) => {
+    if (!child || !child.props) return {};
+    if (child.props.fill && child.props.fill !== "none") {
+      return { fill };
+    }
+    if (child.props.stroke && child.props.stroke !== "none") {
+      return { stroke: fill };
+    }
+    return {};
+  };
 
+  const Icon = SvgIcon && SvgIcon.props ? ({ width, height, fill }) => (
+    React.cloneElement(SvgIcon, {
+      width,
+      height,
+      children: React.Children.map(SvgIcon.props.children, child => 
+        React.cloneElement(child, determineFillOrStroke(child, fill))
+      )
+    })
+  ) : null;  
   const hoverAnimation = (enter) => {
     if (enter) return { scale: 1.02, transition: { duration: 0.3, delay: 0.2 } };
     else return { scale: 1, transition: { duration: 0.3, delay: 0.2 } };
@@ -59,26 +78,19 @@ export default function FunctionalSVG({ svgName, clicked, onClick, urlLink = nul
       return () => clearTimeout(timer);
     }
   }, [isTooltipOpen]);
-
   return (
-    <Tooltip className="rounded-lg" content={tooltipText} {...(isMobile && tooltipText ? { isOpen: isTooltipOpen } : {})} color="secondary" isDisabled={tooltipText == null}>
-      <div className="w-100" data-html2canvas-ignore="true">
+    <Tooltip className={`rounded-lg px-2 py-1`} content={tooltipText} 
+    style={{ backgroundColor: tooltipBgColor, color: tooltipTextColor, borderRadius: "8px" }}
+    {...(isMobile && tooltipText ? { isOpen: isTooltipOpen } : {})} isDisabled={tooltipText == null}>
+      <div className="" data-html2canvas-ignore="true">
         <div onMouseEnter={() => handleMouse(true)} onMouseLeave={() => handleMouse(false)} onClick={handleClick} className={`w-[${width}px] h-[${height}px]`}>
           <div style={{ position: 'relative' }}>
-            {showText && <div className={`absolute -top-3  w-100 text-[10px] `}>{clickedText}</div>}
-            {urlLink != null ? (
-              <a href={urlLink} target="_blank" rel="noopener noreferrer" onMouseEnter={() => handleMouse(true)} onMouseLeave={() => handleMouse(false)}>
-                <motion.div animate={clicked ? clickAnimation : (isHovered ? hoverAnimation(true) : hoverAnimation(false))}>
-                  <GetIcon icon={svgName} width={width} height={height} fill={isHovered || clicked ? hoverFill : defaultFill} />
-                </motion.div>
-              </a>
-            ) : (
-              <a onMouseEnter={() => handleMouse(true)} onMouseLeave={() => handleMouse(false)}>
-                <motion.div animate={clicked ? clickAnimation : (isHovered ? hoverAnimation(true) : hoverAnimation(false))}>
-                  <GetIcon icon={svgName} width={width} height={height} fill={isHovered || clicked ? hoverFill : defaultFill} />
-                </motion.div>
-              </a>
-            )}
+            {showText && <div className={`absolute -top-3  w-100 text-[10px] bg-red-500 text-white`}>{clickedText}</div>}
+            <a href={urlLink || undefined} target={urlLink ? "_blank" : undefined} rel={urlLink ? "noopener noreferrer" : undefined} onMouseEnter={() => handleMouse(true)} onMouseLeave={() => handleMouse(false)}>
+              <motion.div animate={clicked ? clickAnimation : (isHovered ? hoverAnimation(true) : hoverAnimation(false))}>
+                {Icon && <Icon width={size} height={size} {...(defaultFill || hoverFill ? determineFillOrStroke({ props: { fill: isHovered && hoverFill != null ? hoverFill : defaultFill, stroke: isHovered && hoverFill != null ? hoverFill : defaultFill } }, isHovered && hoverFill != null ? hoverFill : defaultFill) : {})}/>}
+              </motion.div>
+            </a>
           </div>
         </div>
       </div>

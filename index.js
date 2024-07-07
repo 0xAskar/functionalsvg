@@ -1,3 +1,2 @@
-import FunctionalSVG from './src/FunctionalSvg.js';
-
-export default FunctionalSVG;
+const FunctionalSVG = require('./lib/FunctionalSvg.js');
+module.exports = FunctionalSVG;
