@@ -13,14 +13,14 @@ npm install functional-svg
 
 ```jsx
 import React, { useState } from 'react';
-import HoverableSVG from 'functional-svg';
+import FunctionalSVG from 'functional-svg';
 
 const MyComponent = () => {
   const [clicked, setClicked] = useState(false);
 
   return (
     <div>
-      <HoverableSVG
+      <FunctionalSVG
         svgName="exampleIcon"
         clicked={clicked}
         onClick={() => setClicked(!clicked)}

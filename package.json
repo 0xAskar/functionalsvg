@@ -1,26 +1,39 @@
 {
-    "name": "functionalsvg",
-    "version": "1.0.0",
+    "name": "functional-svg",
+    "version": "1.0.1",
     "description": "A library to add functionality to any svg",
     "main": "index.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "build": "babel src --out-dir lib",
+        "test": "jest"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/0xAskar/functionalsvg.git"
+        "type": "git",
+        "url": "git+https://github.com/0xAskar/functionalsvg.git"
     },
     "keywords": [
-      "functional",
-      "svg",
-      "hoverable",
-      "clickable"
+        "functional",
+        "svg",
+        "hoverable",
+        "clickable"
     ],
     "author": "Askar",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/0xAskar/functionalsvg/issues"
+        "url": "https://github.com/0xAskar/functionalsvg/issues"
     },
-    "homepage": "https://github.com/0xAskar/functionalsvg#readme"
-  }
-  
+    "homepage": "https://github.com/0xAskar/functionalsvg#readme",
+    "dependencies": {
+        "@nextui-org/react": "^2.4.2",
+        "framer-motion": "^11.2.13",
+        "react": "^18.3.1",
+        "react-device-detect": "^2.2.3",
+        "react-dom": "^18.3.1"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.24.7",
+        "@babel/core": "^7.24.7",
+        "@babel/preset-env": "^7.24.7",
+        "@babel/preset-react": "^7.24.7"
+    }
+}
